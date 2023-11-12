@@ -1,0 +1,75 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+struct Element {
+    int r;
+    int c;
+    int val;
+};
+
+struct SparseMatrix {
+    int rs;
+    int cs;
+    vector<Element> ele;
+};
+
+SparseMatrix initializeSparseMatrix(int arr[][5], int rs, int cs) {
+    SparseMatrix matrix;
+    matrix.rs = rs;
+    matrix.cs = cs;
+
+    for (int i = 0; i < rs; ++i) {
+        for (int j = 0; j < cs; ++j) {
+            if (arr[i][j] != 0) {
+                Element elem;
+                elem.r = i;
+                elem.c = j;
+                elem.val = arr[i][j];
+                matrix.ele.push_back(elem);
+            }
+        }
+    }
+
+    return matrix;
+}
+
+void displaySparseMatrix(const SparseMatrix& matrix) {
+    int k = 0; 
+    for (int i = 0; i < matrix.rs; ++i) {
+        for (int j = 0; j < matrix.cs; ++j) {
+            if (k < matrix.ele.size() && matrix.ele[k].r == i && matrix.ele[k].c == j) {
+                cout << matrix.ele[k].val << " ";
+                ++k;
+            } else {
+                cout << "0 ";
+            }
+        }
+        cout << endl;
+    }
+}
+
+int main() {
+    int arr[4][5] = {
+        {0, 0, 3, 0, 4},
+        {0, 0, 5, 7, 0},
+        {0, 0, 0, 0, 0},
+        {0, 2, 6, 0, 0}
+    };
+
+    SparseMatrix matrix = initializeSparseMatrix(arr, 4, 5);
+
+    cout << "Original Matrix:" << endl;
+    for (int i = 0; i < 4; ++i) {
+        for (int j = 0; j < 5; ++j) {
+            cout << arr[i][j] << " ";
+        }
+        cout << endl;
+    }
+
+    cout << "\lnSparse Matrix:" << endl;
+    displaySparseMatrix(matrix);
+
+    return 0;
+} 
